@@ -32,3 +32,18 @@ Actualizar la galería realizada en Mayo 2024 a un Web Stack diferente incluyend
 - Marca de agua en la imagen
 - Etiquetas de imagen
 - Busqueda basada en etiquetas
+
+
+
+
+# docker
+
+## bash
+```
+docker run -d --name mongo-atia -e MONGO_INITDB_ROOT_USERNAME=mongoatia -e MONGO_INITDB_ROOT_PASSWORD=apasswordGIv3n -p 27017:27017 -v mongo-atia-volume mongo:7.0
+```
+
+## docker compose
+```
+docker compose up -d
+```
