@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  # react-app:
+  # api-server:
+  mongo:
+    image: mongo:7.0
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongoatia
+      MONGO_INITDB_ROOT_PASSWORD: apasswordGIv3n
+    ports:
+      - 27017:27017
+    volumes:
+      - mongovolume:/data/db
+
+volumes:
+  mongovolume: # Corrected volume definition
