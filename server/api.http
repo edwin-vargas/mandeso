@@ -1,0 +1,4 @@
+# API TEST AND DOCUMENTATION
+
+### hello world!
+GET http://localhost:3000/helloworld
