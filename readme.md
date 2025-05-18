@@ -1,8 +1,26 @@
-# Mantenimiento software
+# PREREQUISITES
 
-## Parcial 1
+- Node
+- Npm
+- Docker
 
-### Pinterest Clon
+# INSTALLATION
+
+MongoDB
+`docker compose -d`
+
+React
+`cd client`
+`npm i`
+`npm run dev`
+
+Api
+`cd server`
+`npm i`
+`npm run dev`
+
+# MANTENIMIENTO DE SOFTWARE
+## Pinterest Clon
 
 Actualizar la galería realizada en Mayo 2024 a un Web Stack diferente incluyendo nuevas caracteristicas.
 
@@ -36,14 +54,16 @@ Actualizar la galería realizada en Mayo 2024 a un Web Stack diferente incluyend
 
 
 
+
+
 # docker
 
 ## bash
-```
+`
 docker run -d --name mongo-atia -e MONGO_INITDB_ROOT_USERNAME=mongoatia -e MONGO_INITDB_ROOT_PASSWORD=apasswordGIv3n -p 27017:27017 -v mongo-atia-volume mongo:7.0
-```
+`
 
 ## docker compose
-```
+`
 docker compose up -d
-```
+`
