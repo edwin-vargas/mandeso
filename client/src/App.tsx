@@ -1,44 +1,19 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import UploadPage from './UploadPage';
+import Gallery from './Gallery';
 
 function App() {
-  const [images, setImages] = useState(null);
-
-  const handleUpload = async (e) => {
-    const formData = new FormData();
-    formData.append('image', e.target.files[0]);
-
-    const { data } = await axios.post('http://localhost:3001/upload', formData);
-    const res = await axios.get(`http://localhost:3001/images/${data.imageId}`);
-    setImages(res.data);
-  };
-
   return (
-    <div style={{ padding: '2rem' }}>
-      <h1>Sube tu imagen</h1>
-      <input type="file" onChange={handleUpload} />
-      {images && (
-        <div>
-          <h2>Imágenes procesadas:</h2>
-          <div>
-            <p>Original:</p>
-            <img src={images.original} alt="original" style={{ maxWidth: 200 }} />
-          </div>
-          <div>
-            <p>Optimizada:</p>
-            <img src={images.optimized} alt="optimized" style={{ maxWidth: 200 }} />
-          </div>
-          <div>
-            <p>Optimizada con marca de agua:</p>
-            <img src={images.optimizedWatermarked} alt="watermarked" style={{ maxWidth: 200 }} />
-          </div>
-          <div>
-            <p>Icono:</p>
-            <img src={images.icon} alt="icon" style={{ maxWidth: 128 }} />
-          </div>
-        </div>
-      )}
-    </div>
+    <Router>
+      <nav>
+        <Link to="/">Subir imagen</Link> | <Link to="/gallery">Galería</Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={<UploadPage />} />
+        <Route path="/gallery" element={<Gallery />} />
+      </Routes>
+    </Router>
   );
 }
 

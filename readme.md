@@ -1,24 +1,3 @@
-# PREREQUISITES
-
-- Node
-- Npm
-- Docker
-
-# INSTALLATION
-
-MongoDB
-`docker compose -d`
-
-React
-`cd client`
-`npm i`
-`npm run dev`
-
-Api
-`cd server`
-`npm i`
-`npm run dev`
-
 # MANTENIMIENTO DE SOFTWARE
 ## Pinterest Clon
 

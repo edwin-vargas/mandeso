@@ -32,6 +32,7 @@ mongoose.connect(uri);
 
 const imageSchema = new mongoose.Schema({
   userId: String,
+  tags: [String],
   original: Buffer,
   optimized: Buffer,
   optimizedWatermarked: Buffer,
@@ -44,7 +45,8 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 app.post('/upload', upload.single('image'), async (req, res) => {
-  const userId = 'test-user-123'; // ID fijo
+  const userId = 'test-user-123';
+  const tags = req.body.tags ? JSON.parse(req.body.tags) : [];
   const mimeType = 'image/webp';
 
   try {
@@ -71,12 +73,14 @@ app.post('/upload', upload.single('image'), async (req, res) => {
 
     const imageDoc = new Image({
       userId,
+      tags,
       original: originalBuffer,
       optimized,
       optimizedWatermarked,
       icon,
       mimeType,
     });
+
 
     await imageDoc.save();
 
@@ -98,5 +102,23 @@ app.get('/images/:id', async (req, res) => {
     icon: `data:${image.mimeType};base64,${image.icon.toString('base64')}`,
   });
 });
+
+app.get('/images', async (req, res) => {
+  const { tag } = req.query;
+  const filter = tag ? { tags: tag } : {};
+  const images = await Image.find(filter).limit(100);
+
+  const result = images.map((img) => ({
+    id: img._id,
+    tags: img.tags,
+    original: `data:${img.mimeType};base64,${img.original.toString('base64')}`,
+    optimized: `data:${img.mimeType};base64,${img.optimized.toString('base64')}`,
+    optimizedWatermarked: `data:${img.mimeType};base64,${img.optimizedWatermarked.toString('base64')}`,
+    icon: `data:${img.mimeType};base64,${img.icon.toString('base64')}`,
+  }));
+
+  res.json(result);
+});
+
 
 app.listen(3001, () => console.log('Server running on http://localhost:3001'));
