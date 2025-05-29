@@ -62,12 +62,27 @@ app.post('/upload', upload.single('image'), async (req, res) => {
       .webp()
       .toBuffer();
 
-    const watermark = Buffer.from(
-      '<svg><text x="10" y="50" font-size="40" fill="white">WATERMARK</text></svg>'
-    );
+   const watermark = Buffer.from(`
+  <svg width="200" height="60">
+    <style>
+      .text {
+        font-size: 32px;
+        fill: white;
+        stroke: black;
+        stroke-width: 2px;
+        paint-order: stroke;
+        font-family: sans-serif;
+      }
+    </style>
+    <text x="0" y="40" class="text">Atia</text>
+  </svg>
+`);
+
+
 
     const optimizedWatermarked = await sharp(optimized)
-      .composite([{ input: watermark, gravity: 'southeast' }])
+      .composite([{ input: watermark, gravity: 'northwest' }])
+
       .webp()
       .toBuffer();
 
