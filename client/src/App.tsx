@@ -1,35 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import axios from 'axios';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [images, setImages] = useState(null);
+
+  const handleUpload = async (e) => {
+    const formData = new FormData();
+    formData.append('image', e.target.files[0]);
+
+    const { data } = await axios.post('http://localhost:3001/upload', formData);
+    const res = await axios.get(`http://localhost:3001/images/${data.imageId}`);
+    setImages(res.data);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div style={{ padding: '2rem' }}>
+      <h1>Sube tu imagen</h1>
+      <input type="file" onChange={handleUpload} />
+      {images && (
+        <div>
+          <h2>Imágenes procesadas:</h2>
+          <div>
+            <p>Original:</p>
+            <img src={images.original} alt="original" style={{ maxWidth: 200 }} />
+          </div>
+          <div>
+            <p>Optimizada:</p>
+            <img src={images.optimized} alt="optimized" style={{ maxWidth: 200 }} />
+          </div>
+          <div>
+            <p>Optimizada con marca de agua:</p>
+            <img src={images.optimizedWatermarked} alt="watermarked" style={{ maxWidth: 200 }} />
+          </div>
+          <div>
+            <p>Icono:</p>
+            <img src={images.icon} alt="icon" style={{ maxWidth: 128 }} />
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
